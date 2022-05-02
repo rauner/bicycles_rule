@@ -1,10 +1,12 @@
-#sclae the air pollution results to the internalization modes
+#scale the air pollution results to the internalization modes
 
-#change to do for all years
+air_pollution = pd.read_csv(air_pollution_report, sep=';')
+
+air_pollution['year.1']= air_pollution['year.1'].replace(2015,2020)
 
 
 # air pollution results of the mobility sector
-air_pollution = air_pollution[air_pollution["year.1"] == year]
+air_pollution = air_pollution[air_pollution["year.1"].isin(years)]
 
 #filter for the relevant scaling remind activities
 remind_air_pollution_scaling_variables = ["ES|Transport|VKM|Pass|Road|LDV",
@@ -21,9 +23,11 @@ remind_air_pollution = remind_air_pollution.pivot(index=['Model','Scenario','Reg
 
 #from long to wide with region
 #share of considered modes vs the total from the air pollution model
-remind_air_pollution['air_pollution_scaling'] = (remind_air_pollution["ES|Transport|VKM|Pass|Road|LDV"] + remind_air_pollution["ES|Transport|VKM|Pass|Road|Bus"]) / (remind_air_pollution["ES|Transport|VKM|Pass|Road"] + remind_air_pollution["ES|Transport|VKM|Freight|Road"])
-# to go to VKM
+remind_air_pollution['air_pollution_scaling'] = (remind_air_pollution["ES|Transport|VKM|Pass|Road|LDV"] + remind_air_pollution["ES|Transport|VKM|Pass|Road|Bus"]) / ((remind_air_pollution["ES|Transport|VKM|Pass|Road"] + remind_air_pollution["ES|Transport|VKM|Freight|Road"]))
+
+#down to one VKM
 remind_air_pollution['air_pollution_scaling'] =  remind_air_pollution['air_pollution_scaling'] / ((remind_air_pollution["ES|Transport|VKM|Pass|Road|LDV"] + remind_air_pollution["ES|Transport|VKM|Pass|Road|Bus"])*1000000000)
+
 
 remind_air_pollution = remind_air_pollution['air_pollution_scaling']
 
@@ -38,7 +42,7 @@ air_pollution = air_pollution.merge(region_mapping[["CountryCode","RegionCode"]]
 air_pollution = air_pollution.groupby(['RegionCode','year.1']).sum().reset_index()
 
 #add a World row
-air_pollution = pd.concat([air_pollution, air_pollution.groupby(['year.1']).sum().reset_index()])  
+air_pollution = pd.concat([air_pollution, air_pollution.groupby(['year.1']).mean().reset_index()])  
 air_pollution['RegionCode'] = air_pollution['RegionCode'].replace(np.nan, "World")
 
 #merge remind_air_pollution and air_pollution and scale with air pollution scaling
@@ -61,6 +65,7 @@ air_pollution = air_pollution[['region','period','air_pollution_death','air_poll
 # we use a undifferentiated average across all technologies !!
 # add a new row for air pollution deahts, dalys, indirect daly cost, direct daly cost
 
+################ change this to period specific
 data["average"] = data.mean(numeric_only=True, axis=1)
 
 # calc the relative PMF compared to the average
@@ -76,9 +81,15 @@ data["region"] = data['transport mode'].str.partition(', None')[0].str.strip().s
 
 
 #add year
-data["period"] = year
+data["period"] = data['transport mode'].str.partition(',')[0].str.partition("'")[2].str.partition("'")[0]
+
+data['transport mode'] = data['transport mode'].str.partition(',')[2]
 
 data['region'] = data['region'].replace('age', "GLO")
+data['region'] = data['region'].replace(' CH', "EUR")
+
+data['period'] = data['period'].replace('', "2050")
+data['period'] = data['period'].astype(np.float64)
 
 #left join data and air pollution
 
@@ -88,10 +99,11 @@ data['air_pollution_death'] = data['air_pollution_death'] * data['air_pollution'
 data['air_pollution_DALY'] = data['air_pollution_DALY'] * data['air_pollution']
 data['air_pollution_cost_indirect'] = data['air_pollution_cost_indirect'] * data['air_pollution']
 data['air_pollution_cost_direct'] = data['air_pollution_cost_direct'] * data['air_pollution']
+#drop scaling column
 data = data.drop(columns=['air_pollution'])
+#drop old LCA air pollution column
+data = data.drop(columns=['particulate matter formation'])
 
 
-#scale the literature stuff?
-#check what the sclaing is doing now and adjust
 
 

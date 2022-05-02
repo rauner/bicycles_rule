@@ -67,10 +67,10 @@ activities=[]
 for index, row in remind_pass_road_ldv_bev.iterrows():
     variable = row['Variable'].split("'",2)[1]
     region=row['Region']
-    activities.append([act for act in ei if act['name']==str(variable) and act['location'] == str(region)][0])
+    activities.append([act for act in lca_databases[str(year)] if act['name']==str(variable) and act['location'] == str(region)][0])
 
 #create a new World activity for every transport mode 
-pass_road_ldv_bev = ei.new_activity(code = "pass_road_ldv_bev", name = str("pass_road_ldv_bev"), unit = "vkm")
+pass_road_ldv_bev = lca_databases[str(year)].new_activity(code = "pass_road_ldv_bev", name = str("pass_road_ldv_bev"), unit = "vkm")
 
 #loop over regions
 for i in range(len(activities)-1):
@@ -92,10 +92,10 @@ activities=[]
 for index, row in remind_pass_road_ldv_fcev.iterrows():
     variable = row['Variable'].split("'",2)[1]
     region=row['Region']
-    activities.append([act for act in ei if act['name']==str(variable) and act['location'] == str(region)][0])
+    activities.append([act for act in lca_databases[str(year)] if act['name']==str(variable) and act['location'] == str(region)][0])
 
 #create a new World activity for every transport mode 
-pass_road_ldv_fcev = ei.new_activity(code = "pass_road_ldv_fcev", name = str("pass_road_ldv_fcev"), unit = "vkm")
+pass_road_ldv_fcev = lca_databases[str(year)].new_activity(code = "pass_road_ldv_fcev", name = str("pass_road_ldv_fcev"), unit = "vkm")
 
 #loop over regions
 for i in range(len(activities)-1):
@@ -117,10 +117,10 @@ activities=[]
 for index, row in remind_pass_road_ldv_gases.iterrows():
     variable = row['Variable'].split("'",2)[1]
     region=row['Region']
-    activities.append([act for act in ei if act['name']==str(variable) and act['location'] == str(region)][0])
+    activities.append([act for act in lca_databases[str(year)] if act['name']==str(variable) and act['location'] == str(region)][0])
 
 #create a new World activity for every transport mode 
-pass_road_ldv_gases = ei.new_activity(code = "pass_road_ldv_gases", name = str("pass_road_ldv_gases"), unit = "vkm")
+pass_road_ldv_gases = lca_databases[str(year)].new_activity(code = "pass_road_ldv_gases", name = str("pass_road_ldv_gases"), unit = "vkm")
 
 #loop over regions
 for i in range(len(activities)-1):
@@ -141,10 +141,10 @@ activities=[]
 for index, row in remind_pass_road_ldv_hybrid_electric.iterrows():
     variable = row['Variable'].split("'",2)[1]
     region=row['Region']
-    activities.append([act for act in ei if act['name']==str(variable) and act['location'] == str(region)][0])
+    activities.append([act for act in lca_databases[str(year)] if act['name']==str(variable) and act['location'] == str(region)][0])
 
 #create a new World activity for every transport mode 
-pass_road_ldv_hybrid_electric = ei.new_activity(code = "pass_road_ldv_hybrid_electric", name = str("pass_road_ldv_hybrid_electric"), unit = "vkm")
+pass_road_ldv_hybrid_electric = lca_databases[str(year)].new_activity(code = "pass_road_ldv_hybrid_electric", name = str("pass_road_ldv_hybrid_electric"), unit = "vkm")
 
 #loop over regions
 for i in range(len(activities)-1):
@@ -165,10 +165,10 @@ activities=[]
 for index, row in remind_pass_road_ldv_hybrid_liquids.iterrows():
     variable = row['Variable'].split("'",2)[1]
     region=row['Region']
-    activities.append([act for act in ei if act['name']==str(variable) and act['location'] == str(region)][0])
+    activities.append([act for act in lca_databases[str(year)] if act['name']==str(variable) and act['location'] == str(region)][0])
 
 #create a new World activity for every transport mode 
-pass_road_ldv_hybrid_liquids = ei.new_activity(code = "pass_road_ldv_hybrid_liquids", name = str("pass_road_ldv_hybrid_liquids"), unit = "vkm")
+pass_road_ldv_hybrid_liquids = lca_databases[str(year)].new_activity(code = "pass_road_ldv_hybrid_liquids", name = str("pass_road_ldv_hybrid_liquids"), unit = "vkm")
 
 #loop over regions
 for i in range(len(activities)-1):
@@ -189,10 +189,10 @@ activities=[]
 for index, row in remind_pass_road_ldv_liquids.iterrows():
     variable = row['Variable'].split("'",2)[1]
     region=row['Region']
-    activities.append([act for act in ei if act['name']==str(variable) and act['location'] == str(region)][0])
+    activities.append([act for act in lca_databases[str(year)] if act['name']==str(variable) and act['location'] == str(region)][0])
 
 #create a new World activity for every transport mode 
-pass_road_ldv_liquids = ei.new_activity(code = "pass_road_ldv_liquids", name = str("pass_road_ldv_liquids"), unit = "vkm")
+pass_road_ldv_liquids = lca_databases[str(year)].new_activity(code = "pass_road_ldv_liquids", name = str("pass_road_ldv_liquids"), unit = "vkm")
 
 #loop over regions
 for i in range(len(activities)-1):
